@@ -37,21 +37,21 @@ function addInput(event) {
     
 };
 
-function checkDel(event){
-    const item = event.target
-    if(item.classList[0] === 'Del-button'){
-        const todo = item.parentElement;
-        todo.classList.add("fall");
-        delTodo(todo);
-        todo.addEventListener('transitionend',(()=>{
-            todo.remove();
-        }));
-        // todo.remove();
-    }
-    if(item.classList[0] === 'comp-button'){
-        const todo = item.parentElement
-        todo.classList.toggle("completed");
-    }
+function checkDel(event) {
+  const item = event.target;
+  if (item.classList[0] === 'Del-button') {
+      const todo = item.parentElement;
+      todo.classList.add("fall");
+      todo.addEventListener('transitionend', () => {
+          delTodo(todo);
+          todo.remove();
+      });
+  }
+  if (item.classList[0] === 'comp-button') {
+      const todo = item.parentElement;
+      todo.classList.toggle("completed");
+      updateTodoState(todo, todo.classList.contains("completed"));
+  }
 };
 
 function filterTodo(e) {
@@ -79,50 +79,47 @@ function filterTodo(e) {
     });
   }
 
-  function saveTodo(todo){
+  function saveTodo(todo, completed = false) {
     let todos;
-    if(localStorage.getItem("todos")=== null){
-      todos = [];
-
-    }else {
-      todos = JSON.parse(localStorage.getItem("todos"));
+    if (localStorage.getItem("todos") === null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
     }
-    todos.push(todo);
-    localStorage.setItem("todos",JSON.stringify(todos));
-    // console.log(localStorage.children[0]);
-  }
+    todos.push({ text: todo, completed: completed });
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
 ;
-
-function getTodo(){
+function getTodo() {
   let todos;
-    if(localStorage.getItem("todos")=== null){
+  if (localStorage.getItem("todos") === null) {
       todos = [];
-
-    }else {
+  } else {
       todos = JSON.parse(localStorage.getItem("todos"));
-    }
-    localStorage.setItem("todos",JSON.stringify(todos));
-  todos.forEach(function(todo){
-    const todoDiv = document.createElement("div");
-    todoDiv.classList.add("todos");
+  }
+  todos.forEach(function(todoObj) {
+      const todoDiv = document.createElement("div");
+      todoDiv.classList.add("todos");
+      if(todoObj.completed) {
+          todoDiv.classList.add("completed");
+      }
 
-    const newTodo = document.createElement("li")
-    newTodo.innerText = todo;
-    newTodo.classList.add("todo-units");
-    todoDiv.appendChild(newTodo);
-  
-    const CompleteButton = document.createElement("button");
-    CompleteButton.innerHTML = '<i class = "fa-solid fa-check"></i>';
-    CompleteButton.classList.add("comp-button");
-    todoDiv.appendChild(CompleteButton);
+      const newTodo = document.createElement("li")
+      newTodo.innerText = todoObj.text;
+      newTodo.classList.add("todo-units");
+      todoDiv.appendChild(newTodo);
+    
+      const CompleteButton = document.createElement("button");
+      CompleteButton.innerHTML = '<i class = "fa-solid fa-check"></i>';
+      CompleteButton.classList.add("comp-button");
+      todoDiv.appendChild(CompleteButton);
 
-    const DelButton = document.createElement("button");
-    DelButton.innerHTML = '<i class = "fa-solid fa-trash"></i>';
-    DelButton.classList.add("Del-button");
-    todoDiv.appendChild(DelButton);
-    todoitem.appendChild(todoDiv);
-
-  })
+      const DelButton = document.createElement("button");
+      DelButton.innerHTML = '<i class = "fa-solid fa-trash"></i>';
+      DelButton.classList.add("Del-button");
+      todoDiv.appendChild(DelButton);
+      todoitem.appendChild(todoDiv);
+  });
 };
 function delTodo(todo) {
   let todos;
@@ -133,5 +130,12 @@ function delTodo(todo) {
   }
   const todoIndex = todo.children[0].innerText;
   todos.splice(todos.indexOf(todoIndex), 1);
+  localStorage.setItem("todos", JSON.stringify(todos));
+};
+function updateTodoState(todoElement, isCompleted) {
+  let todos = JSON.parse(localStorage.getItem("todos"));
+  const todoIndex = todoElement.querySelector(".todo-units").innerText;
+  const todoObj = todos.find(todo => todo.text === todoIndex);
+  todoObj.completed = isCompleted;
   localStorage.setItem("todos", JSON.stringify(todos));
 }
