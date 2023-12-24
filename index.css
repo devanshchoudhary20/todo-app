@@ -59,8 +59,8 @@ body {
     margin-top: 20px;
   }
   .construction-icon {
-    width: auto; /* Adjust as needed */
-    height: auto; /* Adjust as needed */
+    width: auto; 
+    height: auto;
     display: inline-block;
     margin-bottom: 20px;
   }
