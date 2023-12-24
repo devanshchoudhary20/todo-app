@@ -1,0 +1,238 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background:linear-gradient(
+        90deg,
+        #eea866 50%, 
+        rgb(243, 208, 113) 100%
+      );
+      color: white;
+      font-family: stylish;
+      min-height: 100vh;
+      margin: 1rem;
+}
+
+header{
+    font-size: 2rem;
+    align-items: center;
+
+}
+header,form{
+    min-height: 20vw;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
+    
+}
+
+form input, form button{
+    padding: 0.5rem;
+    font-size: 2rem;
+    border: none;
+    background: white;
+    
+}
+form button{
+    color: #eea866;
+    background: white;
+    cursor:pointer;
+    transition: all 0.5s ease;
+}
+form button:hover{
+    color: white;
+    background: rgb(221, 136, 87);
+}
+.todo_box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.todo_item{
+    list-style: none;
+    min-width: 30%;
+
+}
+.todos{
+    margin: 0.5rem;
+    background: white;
+    color: black;
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: all 0.5s ease;
+    
+}
+.todo-units{
+    overflow: auto;
+    word-wrap: break-word;
+}
+.todos li{
+    flex: 1;
+}
+
+.comp-button, .Del-button{
+    background: #e46634;
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+
+}
+.comp-button{
+    background: rgb(42, 177, 42);
+}
+.fa-trash, .fa-check{
+    pointer-events: none;
+}
+.completed{
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+.fall{
+    transform: translateY(8rem) rotateZ(20deg);
+    opacity: 0;
+}
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: none;
+}
+.select{
+    margin: 1rem;
+    position: relative;
+    overflow: hidden;
+
+}
+select{
+    color: #e46634;
+    /* margin: 1rem; */
+    width: 10rem;
+    cursor: pointer;
+    padding: 1rem;
+}
+.select::after{
+    content: "\25BC";
+    position: absolute;
+    background: #e46634;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+
+}
+.select:hover::after{
+    background: white;
+    color: #e46634;
+}
+
+@media screen and (max-width : 600px) {
+    header{
+        font-size: 1.5rem;
+        align-items: center;
+    
+    }
+    form input, form button{
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: none;
+        background: white;
+        
+    }
+    select{
+        color: #e46634;
+        /* margin: 1rem; */
+        width: 7rem;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+    .select::after{
+        content: "\25BC";
+        position: absolute;
+        background: #e46634;
+        top: 0;
+        right: 0;
+        padding: 0.5rem;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    
+    }
+    .comp-button, .Del-button{
+        background: #e46634;
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 0.5rem;
+    
+    }
+    .comp-button{
+        background: rgb(42, 177, 42);
+    }
+    .todo_item{
+        list-style: none;
+        min-width: 50%;
+    
+    }
+}
+@media screen and (min-width : 601px) and (max-width : 1024px) {
+    header{
+        font-size: 1.8rem;
+        align-items: center;
+    
+    }
+    form input, form button{
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: none;
+        background: white;
+        
+    }
+    select{
+        color: #e46634;
+        /* margin: 1rem; */
+        width: 8rem;
+        cursor: pointer;
+        padding: 0.8rem;
+    }
+    .select::after{
+        content: "\25BC";
+        position: absolute;
+        background: #e46634;
+        top: 0;
+        right: 0;
+        padding: 0.8rem;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    
+    }
+    .comp-button, .Del-button{
+        background: #e46634;
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+    
+    }
+    .comp-button{
+        background: rgb(42, 177, 42);
+    }
+    .todo_item{
+        list-style: none;
+        min-width: 30%;
+    
+    }
+
+}
+
