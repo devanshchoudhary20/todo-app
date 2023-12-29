@@ -17,7 +17,7 @@ function addInput(event) {
     todoDiv.classList.add("todos");
 
     const newTodo = document.createElement("li")
-    if((todoInput.value).length === 0) alert("You cannot do nothing🤪,Add some task before clicking add button")
+    if((todoInput.value).length === 0) alert("You cannot do nothing🤪,Add some text before clicking add button")
     else {newTodo.innerText = todoInput.value ;
     newTodo.classList.add("todo-units");
     todoDiv.append(newTodo);
@@ -28,6 +28,7 @@ function addInput(event) {
     const CompleteButton = document.createElement("button");
     CompleteButton.innerHTML = '<i class = "fa-solid fa-check"></i>';
     CompleteButton.classList.add("comp-button");
+    CompleteButton.setAttribute("task-completed" , "false")
     todoDiv.appendChild(CompleteButton);
 
     const DelButton = document.createElement("button");
@@ -51,8 +52,9 @@ function checkDel(event) {
   }
   if (item.classList[0] === 'comp-button') {
       const todo = item.parentElement;
-      todo.classList.toggle("completed");
-      updateTodoState(todo, todo.classList.contains("completed"));
+      const Check = todo.getAttribute("task-completed") === "true";
+      todo.setAttribute("task-completed",Check?"false" : "true");
+      updateTodoState(todo,todo.getAttribute("task-completed"));
   }
 };
 
@@ -89,6 +91,7 @@ function filterTodo(e) {
         todos = JSON.parse(localStorage.getItem("todos"));
     }
     todos.push({ text: todo, completed: completed });
+    console.log(todos);
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 ;
@@ -114,6 +117,7 @@ function getTodo() {
       const CompleteButton = document.createElement("button");
       CompleteButton.innerHTML = '<i class = "fa-solid fa-check"></i>';
       CompleteButton.classList.add("comp-button");
+      CompleteButton.setAttribute("task-complete",todoObj.completed?"true" : "false");
       todoDiv.appendChild(CompleteButton);
 
       const DelButton = document.createElement("button");
