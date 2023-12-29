@@ -17,9 +17,11 @@ function addInput(event) {
     todoDiv.classList.add("todos");
 
     const newTodo = document.createElement("li")
-    newTodo.innerText = todoInput.value ;
+    if((todoInput.value).length === 0) alert("You cannot do nothing🤪,Add some task before clicking add button")
+    else {newTodo.innerText = todoInput.value ;
     newTodo.classList.add("todo-units");
-    todoDiv.appendChild(newTodo);
+    todoDiv.append(newTodo);
+  
     
     saveTodo(todoInput.value);
     todoInput.value ="";
@@ -33,7 +35,7 @@ function addInput(event) {
     DelButton.classList.add("Del-button");
     todoDiv.appendChild(DelButton);
     todoitem.appendChild(todoDiv);
-    
+    };
     
 };
 
