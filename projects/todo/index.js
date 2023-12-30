@@ -11,16 +11,29 @@ filterOption.addEventListener('change',filterTodo);
 
 
 
+
+
+
 function addInput(event) {
   
     event.preventDefault();
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todos");
     todoDiv.setAttribute("task-completed" , "false")
+    todoDiv.draggable = true;
+
+    //add drag Event Listners
+    todoDiv.addEventListener('dragstart', dragStart);
+    todoDiv.addEventListener('dragover', dragOver);
+    todoDiv.addEventListener('dragend', dragEnd);
+    todoDiv.addEventListener('drop', drop);
+
+
+    
     let attr = todoDiv.getAttribute("task-completed");
-    //check for empty text
+
     const newTodo = document.createElement("li")
-    if((todoInput.value).length === 0) alert("You cannot do nothing🤪,Add some text before clicking add button")
+    if((todoInput.value).length === 0) alert("You cannot do nothing🤪,Add some text before clicking add button")  //check for empty text
     else {newTodo.innerText = todoInput.value ;
     newTodo.classList.add("todo-units");
     todoDiv.append(newTodo);
@@ -30,7 +43,6 @@ function addInput(event) {
     const CompleteButton = document.createElement("button");
     CompleteButton.innerHTML = '<i class = "fa-solid fa-check"></i>';
     CompleteButton.classList.add("comp-button");
-    // CompleteButton.setAttribute("task-completed" , "false")
     todoDiv.appendChild(CompleteButton);
 
     const DelButton = document.createElement("button");
@@ -71,13 +83,14 @@ function checkDel(event) {
 function filterTodo(e) {
     const todos = todoitem.children; 
     Array.from(todos).forEach(function(todo) {
-      const check = todo.querySelector('.comp-button').getAttribute("task-completed");
+      const check = todo.getAttribute("task-completed") === "true";
+      // console.log(todo);
       switch (e.target.value) {
         case "all":
           todo.style.display = "flex";
           break;
         case "completed":
-          if (check === "true") {
+          if (check) {
             todo.style.display = "flex";
           } else {
             todo.style.display = "none";
@@ -116,6 +129,14 @@ function getTodo() {
   todos.forEach(function(todoObj) {
       const todoDiv = document.createElement("div");
       todoDiv.classList.add("todos");
+      todoDiv.draggable = true;
+
+      //add draggable EventListner
+      todoDiv.addEventListener('dragstart', dragStart);
+      todoDiv.addEventListener('dragover', dragOver);
+      todoDiv.addEventListener('dragend', dragEnd);
+      todoDiv.addEventListener('drop', drop);
+
       // console.log(todoObj);
       if(todoObj.completed) {
           todoDiv.classList.add("completed");
@@ -160,4 +181,49 @@ function updateTodoState(todoElement, isCompleted) {
         todoToUpdate.completed = isCompleted === "true"; 
         localStorage.setItem("todos", JSON.stringify(todos));
     }
+}
+
+let dragItem = null;
+let position;
+
+function dragStart(e){
+  dragItem = this;
+}
+function dragEnd(e){
+  dragItem = null;
+}
+function dragOver(e){
+  e.preventDefault();
+  const targetY = this.getBoundingClientRect();
+  const relativeY = e.clientY - targetY.top;
+  position = relativeY<targetY.height/2 ? "above" : "below";
+
+}
+function drop(e){
+  e.preventDefault();
+
+  if(this !== dragItem ){
+    if(position === "above"){
+      this.parentNode.insertBefore(dragItem,this)
+    }
+    else{
+      this.parentNode.insertBefore(dragItem,this.nextSibling);
+    }
+    updatePosition();
+  }
+
+}
+
+
+function updatePosition(){
+  let updateData = [];
+
+  const todos = document.querySelectorAll('.todos');
+
+  todos.forEach(todo =>{
+    const updateText = todo.querySelector('.todo-units').innerText;
+    const isCompleted = todo.getAttribute('task-completed') === 'true';
+    updateData.push({text : updateText, completed : isCompleted});
+  });
+  localStorage.setItem('todos',JSON.stringify(updateData));
 }
